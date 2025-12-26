@@ -1,0 +1,45 @@
+// Prisma数据库模型定义
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// 用户模型
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique @db.VarChar(50)
+  email     String   @unique @db.VarChar(100)
+  password  String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  images    Image[]
+  
+  @@map("users")
+}
+
+// 图片模型（后续功能使用）
+model Image {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  filename    String   @db.VarChar(255)
+  originalName String  @db.VarChar(255)
+  mimeType    String   @db.VarChar(50)
+  size        BigInt
+  width       Int?
+  height      Int?
+  exifData    Json?
+  aiTags      Json?
+  customTags  String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("images")
+}
+
