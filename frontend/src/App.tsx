@@ -3,6 +3,7 @@ import { useAuthStore } from './store/authStore';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
+import ImageDetail from './pages/ImageDetail';
 import Layout from './components/Layout';
 
 function App() {
@@ -18,6 +19,18 @@ function App() {
           isAuthenticated ? (
             <Layout>
               <Home />
+            </Layout>
+          ) : (
+            <Navigate to="/login" />
+          )
+        }
+      />
+      <Route
+        path="/image/:id"
+        element={
+          isAuthenticated ? (
+            <Layout>
+              <ImageDetail />
             </Layout>
           ) : (
             <Navigate to="/login" />
